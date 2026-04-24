@@ -1,4 +1,4 @@
-export type VendorId = 'claude' | 'youragent';
+export type VendorId = 'claude' | 'youragent' | 'clawos-cn' | 'clawos-intl';
 export type AuthStyle = 'x-api-key' | 'bearer';
 export type KeyScope = 'internal' | 'external';
 

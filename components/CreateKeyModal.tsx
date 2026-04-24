@@ -101,6 +101,10 @@ export function CreateKeyModal({ onClose, onCreated, defaultScope = 'internal' }
     const baseUrl = (typeof window !== 'undefined' ? window.location.origin : '') + VENDOR_CONFIG[v].basePath;
     const selectedModel = model || models[0]?.value || 'gpt-4o';
 
+    if (VENDOR_CONFIG[v].authStyle === 'bearer') {
+      return `curl ${baseUrl}/v1/chat/completions \\\n  -H "Authorization: Bearer ${subKey}" \\\n  -H "Content-Type: application/json" \\\n  -d '{"model":"${selectedModel}","messages":[{"role":"user","content":"Hello"}]}'`;
+    }
+
     return `curl ${baseUrl} \\\n  -H "x-api-key: ${subKey}" \\\n  -H "Content-Type: application/json" \\\n  -H "anthropic-version: 2023-06-01" \\\n  -d '{"model":"${selectedModel}","max_tokens":1024,"messages":[{"role":"user","content":"Hello"}]}'`;
   };
 

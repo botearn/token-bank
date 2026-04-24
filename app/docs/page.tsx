@@ -208,6 +208,8 @@ export default function DocsPage() {
                 rows={[
                   ['Claude', '/api/v1/claude', 'x-api-key', 'Anthropic Messages'],
                   ['YourAgent', '/api/v1/youragent', 'x-api-key', 'Anthropic Messages'],
+                  ['Clawos (国内)', '/api/v1/clawos-cn', 'Authorization: Bearer', 'OpenAI Chat Completions'],
+                  ['Clawos (海外)', '/api/v1/clawos-intl', 'Authorization: Bearer', 'OpenAI Chat Completions'],
                 ]}
               />
               <P>All vendors authenticate via <code className="px-1.5 py-0.5 bg-[var(--surface-raised)] border border-[var(--border)] rounded-[var(--radius-sm)] font-mono text-[12px]">x-api-key</code> header with your Sub-Key.</P>
@@ -363,7 +365,9 @@ FEISHU_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxx
               <Block>{`sk-vault-{vendor}-{random8chars}
 
 sk-vault-claude-a1b2c3d4
-sk-vault-youragent-z9y8x7w6`}</Block>
+sk-vault-youragent-z9y8x7w6
+sk-vault-clawos-cn-m5n6o7p8
+sk-vault-clawos-intl-q1r2s3t4`}</Block>
             </Section>
 
           </div>

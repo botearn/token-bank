@@ -17,6 +17,22 @@ export const VENDOR_CONFIG: Record<VendorId, VendorConfig> = {
     keyPrefix: 'youragent',
     basePath: '/api/v1/youragent',
   },
+  'clawos-cn': {
+    label: 'Clawos (国内)',
+    endpoint: 'https://token-gateway.clawos.metacarbon-inc.com/v1/chat/completions',
+    authStyle: 'bearer',
+    envKey: 'CLAWOS_CN_MASTER_KEY',
+    keyPrefix: 'clawos-cn',
+    basePath: '/api/v1/clawos-cn',
+  },
+  'clawos-intl': {
+    label: 'Clawos (海外)',
+    endpoint: 'https://token-gateway.clawos.agentclawos.com/v1/chat/completions',
+    authStyle: 'bearer',
+    envKey: 'CLAWOS_INTL_MASTER_KEY',
+    keyPrefix: 'clawos-intl',
+    basePath: '/api/v1/clawos-intl',
+  },
 };
 
 // Available models per vendor (label shown in UI, value sent to upstream API)
@@ -35,8 +51,18 @@ export const VENDOR_MODELS: Record<VendorId, { label: string; value: string; gro
     { label: 'Claude Haiku 4.5', value: 'claude-haiku-4-5-20251001' },
     { label: 'Claude Sonnet 4', value: 'claude-sonnet-4-20250514' },
   ],
+  'clawos-cn': [
+    { label: 'Claude Opus 4.6', value: 'claude-opus-4-6' },
+    { label: 'Claude Sonnet 4.6', value: 'claude-sonnet-4-6' },
+    { label: 'Claude Haiku 4.5', value: 'claude-haiku-4-5-20251001' },
+  ],
+  'clawos-intl': [
+    { label: 'Claude Opus 4.6', value: 'claude-opus-4-6' },
+    { label: 'Claude Sonnet 4.6', value: 'claude-sonnet-4-6' },
+    { label: 'Claude Haiku 4.5', value: 'claude-haiku-4-5-20251001' },
+  ],
 };
 
 export function isValidVendor(v: unknown): v is VendorId {
-  return v === 'claude' || v === 'youragent';
+  return typeof v === 'string' && Object.prototype.hasOwnProperty.call(VENDOR_CONFIG, v);
 }
