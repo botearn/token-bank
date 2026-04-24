@@ -36,16 +36,22 @@ export function ShareSnippet({ subKey, vendor }: ShareSnippetProps) {
   const config = VENDOR_CONFIG[vendor];
   const baseUrl = (typeof window !== 'undefined' ? window.location.origin : '') + config.basePath;
 
+  const authHeaderLabel = config.authStyle === 'bearer' ? 'Authorization: Bearer' : config.authStyle;
+
   const handleCopyAll = () => {
-    const text = `Base URL: ${baseUrl}\nAPI Key: ${subKey}\nAuth Header: ${config.authStyle}`;
+    const text = `Base URL: ${baseUrl}\nAPI Key: ${subKey}\nAuth Header: ${authHeaderLabel}`;
     navigator.clipboard.writeText(text);
     setCopiedAll(true);
     setTimeout(() => setCopiedAll(false), 2000);
   };
 
+  const openaiCurl = `curl ${baseUrl}/v1/chat/completions \\\n  -H "Authorization: Bearer ${subKey}" \\\n  -H "Content-Type: application/json" \\\n  -d '{"model":"claude-opus-4-6","messages":[{"role":"user","content":"Hello"}]}'`;
+
   const snippets: Record<string, string> = {
     claude: `curl ${baseUrl} \\\n  -H "x-api-key: ${subKey}" \\\n  -H "Content-Type: application/json" \\\n  -H "anthropic-version: 2023-06-01" \\\n  -d '{"model":"claude-opus-4-6","max_tokens":1024,"messages":[{"role":"user","content":"Hello"}]}'`,
     youragent: `curl ${baseUrl} \\\n  -H "x-api-key: ${subKey}" \\\n  -H "Content-Type: application/json" \\\n  -H "anthropic-version: 2023-06-01" \\\n  -d '{"model":"claude-opus-4-6","max_tokens":1024,"messages":[{"role":"user","content":"Hello"}]}'`,
+    'clawos-cn': openaiCurl,
+    'clawos-intl': openaiCurl,
   };
   const snippet = snippets[vendor] ?? snippets.claude;
 
@@ -81,9 +87,9 @@ export function ShareSnippet({ subKey, vendor }: ShareSnippetProps) {
             <div className="text-[10px] font-semibold text-black/40 uppercase tracking-widest mb-1">
               {t.shareSnippet.authHeader}
             </div>
-            <code className="font-mono text-xs text-black">{config.authStyle}</code>
+            <code className="font-mono text-xs text-black">{authHeaderLabel}</code>
           </div>
-          <CopyButton text={config.authStyle} />
+          <CopyButton text={authHeaderLabel} />
         </div>
         <div className="text-[10px] text-black/40 mt-1">{t.shareSnippet.copyHint}</div>
       </div>

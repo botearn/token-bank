@@ -20,6 +20,8 @@ A multi-vendor AI API gateway + dashboard. Issues **Sub-Keys** (`sk-vault-...`) 
 |--------|-----------|-------------|--------|
 | Claude | `/api/v1/claude` | `x-api-key` | Anthropic Messages |
 | YourAgent | `/api/v1/youragent` | `x-api-key` | Anthropic Messages |
+| Clawos (国内) | `/api/v1/clawos-cn` | `Authorization: Bearer` | OpenAI Chat Completions |
+| Clawos (海外) | `/api/v1/clawos-intl` | `Authorization: Bearer` | OpenAI Chat Completions |
 
 ## Setup
 
@@ -38,6 +40,8 @@ UPSTASH_REDIS_REST_TOKEN=...
 # Vendor master keys
 CLAUDE_MASTER_KEY=sk-ant-...
 YOURAGENT_MASTER_KEY=...
+CLAWOS_CN_MASTER_KEY=...      # 国内生产 token-gateway.clawos.metacarbon-inc.com
+CLAWOS_INTL_MASTER_KEY=...    # 海外生产 token-gateway.clawos.agentclawos.com
 
 # Optional
 NEXT_PUBLIC_BASE_URL=https://yourdomain.com

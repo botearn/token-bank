@@ -64,8 +64,10 @@ const ANTHROPIC_PRICES: Record<string, { input: number; output: number }> = {
 
 // Vendor → price table mapping
 const VENDOR_PRICE_TABLES: Record<string, Record<string, { input: number; output: number }>> = {
-  claude:    ANTHROPIC_PRICES,
-  youragent: ANTHROPIC_PRICES,
+  claude:        ANTHROPIC_PRICES,
+  youragent:     ANTHROPIC_PRICES,
+  'clawos-cn':   ANTHROPIC_PRICES,
+  'clawos-intl': ANTHROPIC_PRICES,
 };
 
 // YourAgent pricing rule: same token usage costs 4% of official Claude.

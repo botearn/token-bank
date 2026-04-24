@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { redis } from '@/lib/redis';
-import { isValidVendor } from '@/lib/vendors';
+import { isValidVendor, VENDOR_CONFIG } from '@/lib/vendors';
+import type { VendorId } from '@/lib/types';
 import { buildUpstreamRequest } from '@/lib/proxy';
 import { extractTokenUsage, estimateVendorCostUsd, safeModelFromBody } from '@/lib/billing';
 import { logEvent } from '@/lib/events';
@@ -80,6 +81,14 @@ async function extractTokensFromSSE(
               const usage = evt.usage as Record<string, number> | undefined;
               if (usage?.output_tokens) outputTokens = usage.output_tokens;
             }
+          } else if (vendor === 'clawos-cn' || vendor === 'clawos-intl') {
+            // OpenAI-compatible SSE: usage only present on the final chunk when
+            // `stream_options: { include_usage: true }` is set upstream.
+            const usage = evt.usage as Record<string, number> | undefined;
+            if (usage) {
+              inputTokens = usage.prompt_tokens ?? inputTokens;
+              outputTokens = usage.completion_tokens ?? outputTokens;
+            }
           }
         } catch { /* ignore malformed lines */ }
       }
@@ -99,15 +108,17 @@ export async function POST(req: NextRequest, context: RouteContext) {
 
   const subKey = req.headers.get('x-api-key');
 
+  const envKey = VENDOR_CONFIG[vendor as VendorId].envKey;
+
   function resolveMasterKeys(_model?: string): string[] {
-    return (process.env[`${vendor.toUpperCase()}_MASTER_KEY`] ?? '')
+    return (process.env[envKey] ?? '')
       .split(',').map(k => k.trim()).filter(Boolean);
   }
 
   // Early check: at least one key must exist for this vendor
   const defaultKeys = resolveMasterKeys();
   if (defaultKeys.length === 0) {
-    console.error(`Missing ${vendor.toUpperCase()}_MASTER_KEY environment variable`);
+    console.error(`Missing ${envKey} environment variable`);
     return NextResponse.json({ error: 'Service misconfigured' }, { status: 500 });
   }
 

@@ -14,13 +14,20 @@ export function buildUpstreamRequest(
 ): UpstreamRequest {
   const config = VENDOR_CONFIG[vendor];
 
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (config.authStyle === 'bearer') {
+    headers['Authorization'] = `Bearer ${masterKey}`;
+  } else {
+    headers['x-api-key'] = masterKey;
+    headers['anthropic-version'] = '2023-06-01';
+  }
+
   return {
     url: config.endpoint,
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': masterKey,
-      'anthropic-version': '2023-06-01',
-    },
+    headers,
     body: rawBody,
   };
 }

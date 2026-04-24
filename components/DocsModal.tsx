@@ -102,6 +102,8 @@ export function DocsModal({ onClose }: DocsModalProps) {
                 <tbody className="divide-y divide-black/5 font-mono">
                   <tr><td className="px-4 py-2.5">Claude</td><td className="px-4 py-2.5 text-black/60">/api/v1/claude</td><td className="px-4 py-2.5 text-black/60">Anthropic</td></tr>
                   <tr><td className="px-4 py-2.5">YourAgent</td><td className="px-4 py-2.5 text-black/60">/api/v1/youragent</td><td className="px-4 py-2.5 text-black/60">Anthropic</td></tr>
+                  <tr><td className="px-4 py-2.5">Clawos (国内)</td><td className="px-4 py-2.5 text-black/60">/api/v1/clawos-cn</td><td className="px-4 py-2.5 text-black/60">OpenAI Chat</td></tr>
+                  <tr><td className="px-4 py-2.5">Clawos (海外)</td><td className="px-4 py-2.5 text-black/60">/api/v1/clawos-intl</td><td className="px-4 py-2.5 text-black/60">OpenAI Chat</td></tr>
                 </tbody>
               </table>
             </div>
@@ -180,7 +182,9 @@ FEISHU_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxx`}</Block>
             <P>{d.keyFormatDesc}</P>
             <Block>{`sk-vault-{vendor}-{random8chars}
 sk-vault-claude-a1b2c3d4
-sk-vault-youragent-z9y8x7w6`}</Block>
+sk-vault-youragent-z9y8x7w6
+sk-vault-clawos-cn-m5n6o7p8
+sk-vault-clawos-intl-q1r2s3t4`}</Block>
           </Section>
 
         </div>
